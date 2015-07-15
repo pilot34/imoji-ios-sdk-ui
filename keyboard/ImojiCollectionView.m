@@ -62,11 +62,11 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.content.count;
+    return self.content.count * 10;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    id cellContent = self.content[(NSUInteger) indexPath.row];
+    id cellContent = self.content[(NSUInteger) indexPath.row % self.content.count];
 
     //if (self.contentType == ImojiCollectionViewContentTypeImojiCategories) {
         IMImojiCategoryObject *categoryObject = cellContent;
@@ -87,7 +87,7 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    id cellContent = self.content[(NSUInteger) indexPath.row];
+    id cellContent = self.content[(NSUInteger) indexPath.row % self.content.count];
     
     if (self.contentType == ImojiCollectionViewContentTypeImojiCategories) {
         IMImojiCategoryObject *categoryObject = cellContent;
@@ -110,7 +110,7 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return CGSizeMake(100.f, self.frame.size.height / 2.f);
+    return CGSizeMake(self.frame.size.height / 2, self.frame.size.height / 2);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
@@ -139,12 +139,14 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 
 
 - (IMImojiObjectRenderingOptions *)renderingOptions {
-    return [IMImojiObjectRenderingOptions optionsWithRenderSize:IMImojiObjectRenderSizeThumbnail
+    IMImojiObjectRenderingOptions *opts = [IMImojiObjectRenderingOptions optionsWithRenderSize:IMImojiObjectRenderSizeThumbnail
                                                     borderColor:[UIColor whiteColor]
             //                                          borderWidthPercentage:@(.07f)
             //                                                    shadowColor:[UIColor colorWithRed:.25 green:.25 blue:.25f alpha:0.3f]
             //                                           shadowBlurPercentage:@(0.05f)
             ];
+    opts.targetSize = [NSValue valueWithCGSize:CGSizeMake(self.frame.size.height, self.frame.size.height)];
+    return opts;
 }
 
 + (instancetype)imojiCollectionViewWithSession:(IMImojiSession *)session {
@@ -174,8 +176,8 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 @implementation ImojiCategoryCollectionViewCell
 
 - (void)loadImojiCategory:(NSString *)categoryTitle imojiImojiImage:(UIImage *)imojiImage {
-    float imageHeightRatio = 0.66f;
-    float textHeightRatio = 0.18f;
+    float imageHeightRatio = 1.f;
+    float textHeightRatio = 0.f;
     int inBetweenPadding = 3;
     
     if (!self.imojiView) {
