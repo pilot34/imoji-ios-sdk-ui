@@ -62,7 +62,7 @@ CGFloat const ImojiCollectionViewImojiCategoryLeftRightInset = 10.0f;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.content.count * 10;
+    return self.content.count * 30;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
