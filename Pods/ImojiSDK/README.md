@@ -1,9 +1,10 @@
 # Imoji SDK
 
-To integrate with Imoji, you'll need to add the ImojiSDK framework to your project. The simplest way to do this is by using CocoaPods to get up and running.
+### Setup
 
+Sign up for a free developer account at [https://developer.imoji.io](https://developer.imoji.io) to get your API keys
 
-### Getting Setup With Pods
+### Cocoa Pods Setup
 
 Add the ImojiSDK entry to your Podfile
 
@@ -74,3 +75,13 @@ Once you're app has established a synchronized state, you can then call
 
 The resultSetResponseCallback and imojiResponseCallback work exactly like they do with searching and pulling featured imojis.
 
+
+### Troubleshooting
+
+##### Trouble Linking With ImojiSDK for Application Extensions (ie Keybords)
+
+ImojiSDK uses the App Links Protocol support provided by the Bolts library for authenticating sessions. However for application extensions, objects such as [UIApplication sharedApplication] are prohibited from being used. Compiling Bolts statically will cause errors for your application extension. You can instead link to ImojiSDK using frameworks by adding the following line to your Podfile
+
+```
+use_frameworks!
+```
